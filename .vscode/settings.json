@@ -1,0 +1,9 @@
+{
+    "python.unitTest.pyTestArgs": [
+        "."
+    ],
+    "python.unitTest.unittestEnabled": false,
+    "python.unitTest.nosetestsEnabled": false,
+    "python.pythonPath": "C:\\Users\\Mustafe Farah\\Anaconda3\\python.exe",
+    "python.unitTest.pyTestEnabled": true
+}
