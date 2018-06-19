@@ -1,48 +1,30 @@
-"""
-=====================================
-Custom tick formatter for time series
-=====================================
-
-When plotting time series, e.g., financial time series, one often wants
-to leave out days on which there is no data, i.e. weekends.  The example
-below shows how to use an 'index formatter' to achieve the desired plot
-"""
-from __future__ import print_function
-import numpy as np
+import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib.mlab as mlab
-import matplotlib.cbook as cbook
-import matplotlib.ticker as ticker
 
-datafile = cbook.get_sample_data('aapl.csv', asfileobj=False)
-print('loading %s' % datafile)
-r = mlab.csv2rec(datafile)
+G = nx.DiGraph()
+G.add_edges_from(
+    [('A', 'B'), ('A', 'C'), ('D', 'B'), ('E', 'C'), ('E', 'F'),
+     ('B', 'H'), ('B', 'G'), ('B', 'F'), ('C', 'G')])
 
-r.sort()
-r = r[-30:]  # get the last 30 days
+val_map = {'A': 1.0,
+           'D': 0.5714285714285714,
+           'H': 0.0}
 
+values = [val_map.get(node, 0.25) for node in G.nodes()]
 
-# first we'll do it the default way, with gaps on weekends
-fig, axes = plt.subplots(ncols=2, figsize=(8, 4))
-ax = axes[0]
-ax.plot(r.date, r.adj_close, 'o-')
-ax.set_title("Default")
-fig.autofmt_xdate()
+# Specify the edges you want here
+red_edges = [('A', 'C'), ('E', 'C')]
+edge_colours = ['black' if not edge in red_edges else 'red'
+                for edge in G.edges()]
+black_edges = [edge for edge in G.edges() if edge not in red_edges]
 
-# next we'll write a custom formatter
-N = len(r)
-ind = np.arange(N)  # the evenly spaced plot indices
-
-
-def format_date(x, pos=None):
-    thisind = np.clip(int(x + 0.5), 0, N - 1)
-    return r.date[thisind].strftime('%Y-%m-%d')
-
-
-ax = axes[1]
-ax.plot(ind, r.adj_close, 'o-')
-ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_date))
-ax.set_title("Custom tick formatter")
-fig.autofmt_xdate()
-
+# Need to create a layout when doing
+# separate calls to draw nodes and edges
+pos = nx.spring_layout(G)
+nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'),
+                       node_color=values, node_size=500)
+nx.draw_networkx_labels(G, pos)
+nx.draw_networkx_edges(G, pos, edgelist=red_edges, edge_color='r', arrows=True)
+nx.draw_networkx_edges(G, pos, edgelist=black_edges, arrows=False)
 plt.show()
+

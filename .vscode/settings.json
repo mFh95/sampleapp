@@ -4,6 +4,7 @@
     ],
     "python.unitTest.unittestEnabled": false,
     "python.unitTest.nosetestsEnabled": false,
-    "python.pythonPath": "C:\\Users\\Mustafe Farah\\Anaconda3\\python.exe",
-    "python.unitTest.pyTestEnabled": true
+    "python.pythonPath": "C:\\Users\\Mustafe Farah\\AppData\\Local\\Programs\\Python\\Python36\\python.exe",
+    "python.unitTest.pyTestEnabled": false,
+    "python.unitTest.promptToConfigure": false
 }
