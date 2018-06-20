@@ -26,5 +26,5 @@ nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'),
 nx.draw_networkx_labels(G, pos)
 nx.draw_networkx_edges(G, pos, edgelist=red_edges, edge_color='r', arrows=True)
 nx.draw_networkx_edges(G, pos, edgelist=black_edges, arrows=False)
-plt.show()
+print("hello bro")
 
